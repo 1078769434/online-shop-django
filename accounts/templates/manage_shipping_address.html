@@ -1,0 +1,344 @@
+{#{% extends "base.html" %}#}
+{#{% load crispy_forms_tags %}#}
+{##}
+{#{% block content %}#}
+{#    <div class="col-md-6">#}
+{#        <form method="POST">#}
+{#            {% csrf_token %}#}
+{#            <h3>管理收货地址 (Manage Shipping Addresses)</h3>#}
+{#            <hr>#}
+{##}
+{#            <!-- 显示现有收货地址列表 -->#}
+{#            <ul class="list-group">#}
+{#                {% for address in addresses %}#}
+{#                    <li class="list-group-item d-flex justify-content-between align-items-center">#}
+{#                        {{ address.name }} - {{ address.address_line1 }}, {{ address.city }}#}
+{#                        <div class="btn-group">#}
+{#                            <a href="#" class="btn btn-sm btn-warning mr-2 edit-address" data-id="{{ address.id }}">#}
+{#                                编辑 (Edit)#}
+{#                            </a>#}
+{#                            <a href="#" class="btn btn-sm btn-danger delete-address" data-id="{{ address.id }}">#}
+{#                                删除 (Delete)#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                {% empty %}#}
+{#                    <li class="list-group-item text-center">暂无收货地址 (No shipping addresses found)</li>#}
+{#                    <li class="list-group-item text-center">#}
+{#                        <a href="#" class="btn btn-sm btn-primary add-address">#}
+{#                            添加收货地址 (Add Shipping Address)#}
+{#                        </a>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#            <!-- 新增或编辑收货地址表单 -->#}
+{#            <div id="address-form-container" class="mt-4 d-none">#}
+{#                <h4>新增/编辑收货地址 (Add/Edit Shipping Address)</h4>#}
+{#                <hr>#}
+{#                <form id="address-form" method="POST">#}
+{#                    {% csrf_token %}#}
+{#                    {{ address_form|crispy }}#}
+{#                    <div class="form-group">#}
+{#                        <button class="btn btn-primary mt-3 w-100" type="submit">保存 (Save)</button>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{##}
+{#        </form>#}
+{#    </div>#}
+{#    <!-- 在合适位置添加“添加收货地址”按钮 -->#}
+{#<a href="#" class="btn btn-sm btn-primary add-address">#}
+{#    添加收货地址 (Add Shipping Address)#}
+{#</a>#}
+{#{% endblock %}#}
+{##}
+{#<!-- 在页面底部或单独的JavaScript文件中添加以下脚本 -->#}
+{#<script>    document.addEventListener('DOMContentLoaded', function () {#}
+{#        // “添加收货地址”按钮点击事件处理#}
+{#        const addButton = document.querySelector('.add-address');#}
+{#        addButton.addEventListener('click', function (event) {#}
+{#            event.preventDefault();#}
+{#            const formContainer = document.getElementById('address-form-container');#}
+{#            formContainer.classList.toggle('d-none');#}
+{#        });#}
+{#    });#}
+{#</script>#}
+{#<!-- JavaScript 代码实现动态编辑和删除功能 -->#}
+{#<script>#}
+{#    $(document).ready(function () {#}
+{#        // 编辑地址事件处理#}
+{#        $('.edit-address').click(function (e) {#}
+{#            e.preventDefault();#}
+{#            var addressId = $(this).data('id');#}
+{#            $.ajax({#}
+{#                url: "{% url 'accounts:get_address' %}",#}
+{#                type: 'GET',#}
+{#                data: {'address_id': addressId},#}
+{#                success: function (data) {#}
+{#                    $('#address-form-container').removeClass('d-none');#}
+{#                    $('#address-form').attr('action', "{% url 'accounts:edit_address' %}");#}
+{#                    $('#address-form input[name="address_id"]').val(addressId);#}
+{#                    $('#address-form input[name="name"]').val(data.name);#}
+{#                    $('#address-form input[name="phone_number"]').val(data.phone_number);#}
+{#                    $('#address-form input[name="address_line1"]').val(data.address_line1);#}
+{#                    $('#address-form input[name="address_line2"]').val(data.address_line2);#}
+{#                    $('#address-form input[name="city"]').val(data.city);#}
+{#                    $('#address-form input[name="state_province"]').val(data.state_province);#}
+{#                    $('#address-form input[name="postal_code"]').val(data.postal_code);#}
+{#                    $('#address-form input[name="default"]').prop('checked', data.default);#}
+{#                }#}
+{#            });#}
+{#        });#}
+{##}
+{#        // 删除地址事件处理#}
+{#        $('.delete-address').click(function (e) {#}
+{#            e.preventDefault();#}
+{#            var addressId = $(this).data('id');#}
+{#            $.ajax({#}
+{#                url: "{% url 'accounts:delete_address' %}",#}
+{#                type: 'POST',#}
+{#                data: {'address_id': addressId, 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()},#}
+{#                success: function () {#}
+{#                    location.reload();#}
+{#                }#}
+{#            });#}
+{#        });#}
+{#    });#}
+{#       // 显示添加地址表单事件处理#}
+{#   $('.add-address').click(function (e) {#}
+{#       e.preventDefault();#}
+{#       $('#address-form-container').removeClass('d-none');  // 显示表单容器#}
+{#   });#}
+{#</script>#}
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <head>
+        <!-- 引入Bootstrap CSS 和 JS（确保在<head>标签内） -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <title></title>
+    </head>
+    <h1>{{ title }}</h1>
+    <!-- 添加地址表单 -->
+    <div class="card mb-3">
+        <div class="card-header">新增收货地址</div>
+        <div class="card-body">
+            <form method="post" action="{% url 'accounts:manage_shipping_address' %}">
+                {% csrf_token %}
+                <!-- 渲染 ShippingAddressForm 字段 -->
+                {{ form|crispy }}
+                <input type="hidden" name="add_address" value="true">
+                <button type="submit" class="btn btn-primary">添加地址</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 地址列表 -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">收货人</th>
+            <th scope="col">联系电话</th>
+            <th scope="col">省/州</th>
+            <th scope="col">城市</th>
+            <th scope="col">街道地址1</th>
+            <th scope="col">街道地址2（可选）</th>
+            <th scope="col">邮政编码</th>
+            <th scope="col">是否为默认</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+            <tr>
+                <td>{{ address.id }}</td>
+                <td>{{ address.name }}</td>
+                <td>{{ address.phone_number }}</td>
+                <td>{{ address.state_province }}</td>
+                <td>{{ address.city }}</td>
+                <td>{{ address.address_line1 }}</td>
+                <td>{{ address.address_line2 }}</td>
+                <td>{{ address.postal_code }}</td>
+                <td>{{ address.default }}</td>
+                <td>
+                    {#                    <form method="post" action="{% url 'accounts:manage_shipping_address' %}" style="display: inline;">#}
+                    {#                        {% csrf_token %}#}
+                    {#                        <input type="hidden" name="edit_address" value="true">#}
+                    {#                        <input type="hidden" name="address_id" value="{{ address.id }}">#}
+                    {#                        <button type="submit" class="btn btn-sm btn-danger" >#}
+                    {#                            编辑#}
+                    {#                        </button>#}
+                    {#                            <!-- 编辑按钮触发模态 -->#}
+                    {#                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"#}
+                    {#                            data-target="#editAddressModal">#}
+                    {#                        编辑#}
+                    {#                    </button>#}
+                    {#                    </form>#}
+                    <!-- 删除按钮 -->
+                    {#                    <button type="button" class="btn btn-sm btn-danger edit-address-btn" data-toggle="modal"#}
+                    {#                            data-target="#editAddressModal">#}
+                    {#                        编辑#}
+                    {#                    </button>#}
+                    <button type="button"
+                            class="btn btn-sm btn-danger edit-address-btn"
+                            data-toggle="modal"
+                            data-target="#editAddressModal"
+                            data-address-id="{{ address.id }}"
+                            data-address-name="{{ address.name }}"
+                            data-address-phone="{{ address.phone_number }}"
+                            data-address-province="{{ address.state_province }}"
+                            data-address-city="{{ address.city }}"
+                            data-address-line1="{{ address.address_line1 }}"
+                            data-address-line2="{{ address.address_line2 }}"
+                            data-address-postal="{{ address.postal_code }}"
+                            data-address-default="{{ address.default }}">
+                        编辑
+                    </button>
+                    <form method="post" action="{% url 'accounts:manage_shipping_address' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_address" value="true">
+                        <input type="hidden" name="address_id" value="{{ address.id }}">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('确认删除该地址?')">
+                            删除
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!-- Bootstrap模态框结构 -->
+    <div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">编辑地址</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{% url 'accounts:manage_shipping_address' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="edit_address" value="true">
+                    <input type="hidden" id="address_id" name="address_id" value="{{ address.id }}">
+
+
+                    <!-- 在此处添加实际的表单字段供用户编辑 -->
+                    <!-- 例如： -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipientName">收货人</label>
+                            <input type="text" class="form-control" id="recipientName" name="name"
+                                   value="{{ address.name }}">
+
+                            <label for="phoneNumber">联系电话</label>
+                            <input type="text" class="form-control" id="phoneNumber" name="phone_number"
+                                   value="{{ address.phone_number }}">
+
+                            <label for="province">省/州</label>
+                            <input type="text" class="form-control" id="province" name="state_province"
+                                   value="{{ address.state_province }}">
+
+                            <label for="city">城市</label>
+                            <input type="text" class="form-control" id="city" name="city"
+                                   value="{{ address.city }}">
+
+                            <label for="addressLine1">街道地址1</label>
+                            <input type="text" class="form-control" id="addressLine1" name="address_line1"
+                                   value="{{ address.address_line1 }}">
+
+                            <label for="addressLine2">街道地址2（可选）</label>
+                            <input type="text" class="form-control" id="addressLine2" name="address_line2"
+                                   value="{{ address.address_line2 }}">
+
+                            <label for="postalCode">邮政编码</label>
+                            <input type="text" class="form-control" id="postalCode" name="postal_code"
+                                   value="{{ address.postal_code }}">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isDefault" name="default"
+                                       {% if address.default %}checked{% endif %}>
+                                <label class="form-check-label" for="isDefault">
+                                    是否为默认
+                                </label>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- 更多表单字段... -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">保存更改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+                    // 初始化时确保只有一个默认地址被选中
+        var $defaultCheckboxes = $('input[name="default"]');
+        $defaultCheckboxes.on('change', function () {
+            var isChecked = this.checked;
+            if (isChecked) {
+                // 取消其他所有默认复选框的选中状态
+                $defaultCheckboxes.not(this).prop('checked', false);
+            }
+        });
+            // 当点击编辑按钮时
+            $('.edit-address-btn').on('click', function (e) {
+                e.preventDefault();
+
+                // 获取地址ID和其他数据
+                var addressId = $(this).data('address-id');
+                var addressName = $(this).data('address-name');
+                var addressPhone = $(this).data('address-phone');
+                var addressProvince = $(this).data('address-province');
+                var addressCity = $(this).data('address-city');
+                var addressLine1 = $(this).data('address-line1');
+                var addressLine2 = $(this).data('address-line2');
+                var addressPostal = $(this).data('address-postal');
+                var addressDefault = $(this).data('address-default');
+
+                // 填充表单字段
+                $('#address_id').val(addressId); // 假定有隐藏的id字段用于记录地址ID
+                $('#recipientName').val(addressName);
+                $('#phoneNumber').val(addressPhone);
+                $('#province').val(addressProvince);
+                $('#city').val(addressCity);
+                $('#addressLine1').val(addressLine1);
+                $('#addressLine2').val(addressLine2);
+                $('#postalCode').val(addressPostal);
+                // 对于是否默认地址，如果是以文本形式展示，保持不变；如果是复选框，需要特殊处理
+                $('#isDefault').prop('checked', addressDefault === 'True');
+
+
+                // 显示模态框
+                $('#editAddressModal').modal('show');
+            });
+        });
+        // 添加模态框隐藏事件处理
+        $('#editAddressModal').on('hidden.bs.modal', function (e) {
+            // 重置表单
+            {#$(this)#}
+            {#    .find('form')[0]#}
+            {#    .reset();#}
+            {##}
+            {#// 移除模态框的"in"类，确保模态框完全关闭#}
+            {#$(this).removeClass('in');#}
+
+            // 如果有其他需要在模态框关闭后执行的清理工作，也可以在这里添加
+            // 手动移除遮罩层（谨慎使用）
+            $('.modal-backdrop').remove();
+        });
+
+    </script>
+{% endblock %}
