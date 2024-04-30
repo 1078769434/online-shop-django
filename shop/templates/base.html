@@ -27,11 +27,11 @@
         <a href="{% url 'shop:favorites' %}" class="text-primary mt-2 me-2"><i class="material-icons h3">&#xe87d;</i></a>
         <!-- Menu -->
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="{% url 'shop:home_page' %}" class="nav-link px-2 text-dark">Home</a></li>
-          <li><a href="#" class="nav-link px-2 text-dark">Shop</a></li>
+          <li><a href="{% url 'shop:home_page' %}" class="nav-link px-2 text-dark">首页(Home)</a></li>
+          <li><a href="#" class="nav-link px-2 text-dark">购物(Shop)</a></li>
           <!-- categories dropdown -->
           <div class="dropdown text-end">
-            <a href="#" class=" mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+            <a href="#" class=" mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">分类(Categories)</a>
             <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
               {% for category in categories %}
               <!-- check if category is parent -->
@@ -46,30 +46,31 @@
               {% endfor %}
             </ul>
           </div>
-          <li><a href="#" class="nav-link px-2 text-dark">FAQs</a></li>
-          <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
+          <li><a href="#" class="nav-link px-2 text-dark">常见问题(FAQs)</a></li>
+          <li><a href="#" class="nav-link px-2 text-dark">关于(About)</a></li>
         </ul>
         <!-- search form -->
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="{% url 'shop:search' %}">
-          <input name="q" type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+          <input name="q" type="search" class="form-control form-control-dark" placeholder="搜索商品(Search)" aria-label="Search">
         </form>
         {% if request.user.is_authenticated %}
         <!-- user profile dropdown -->
         <div class="dropdown text-end">
-          <a href="#" class="btn btn-primary text-white me-4 d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+          <a href="#" class="btn btn-primary text-white me-4 d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">配置(Profile)</a>
           <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
-            <li><a href="{% url 'cart:show_cart' %}" <a class="dropdown-item">Cart</a></li>
-            <li><a href="{% url 'shop:favorites' %}" <a class="dropdown-item">Favorites</a></li>
-            <li><a href="{% url 'orders:user_orders' %}" <a class="dropdown-item">Orders</a></li>
-            <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
-            <li><a class="dropdown-item text-danger" href="{% url 'accounts:user_logout' %}">Sign out</a></li>
+            <li><a href="{% url 'cart:show_cart' %}" <a class="dropdown-item">购物车(Cart)</a></li>
+            <li><a href="{% url 'shop:favorites' %}" <a class="dropdown-item">收藏夹(Favorites)</a></li>
+            <li><a href="{% url 'orders:user_orders' %}" <a class="dropdown-item">订单(Orders)</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:manage_shipping_address' %}">收货地址(address)</a></li>
+            <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">编辑个人资料(Edit Profile)</a></li>
+            <li><a class="dropdown-item text-danger" href="{% url 'accounts:user_logout' %}">登出(Sign out)</a></li>
           </ul>
         </div>
         {% else %}
         <!-- login, sign-up btn -->
         <div class="text-end">
-          <a href="{% url 'accounts:user_login' %}" class="btn btn-outline-primary me-2">Login</a>
-          <a href="{% url 'accounts:user_register' %}" class="btn btn-primary">Sign-up</a>
+          <a href="{% url 'accounts:user_login' %}" class="btn btn-outline-primary me-2">登录(Login)</a>
+          <a href="{% url 'accounts:user_register' %}" class="btn btn-primary">注销(Sign-up)</a>
         </div>
         {% endif %}
       </div>

@@ -1,79 +1,67 @@
-# Simple Online Shop: Manage Products and Orders with Django
-![Screenshot 2022-01-09 at 17-04-55 Django Online Shop](https://user-images.githubusercontent.com/71011395/148684469-79bfdb07-efa0-4dde-ad76-1f3277f833e6.png)
+# 简单的在线商店:用Django管理产品和订单
+![ 2024-04-25 153603.png](https://s2.loli.net/2024/04/25/dhVGI9kF8UyisEl.png)
 
 
-This project is a simple but usable online shop written with Django. The app provides a custom dashboard to manage products and orders. Users can like a product, add it to the cart, and proceed to checkout. Order processing is supported, but the payment is handled using a fake pay system.
+这个项目目是用Django编写的一个简单但可用的在线商店。该应用程序提供了一个自定义仪表板来管理产品和订单。用户可以喜欢某个产品，将其添加到购物车中，然后进行结账。支持订单处理，但是使用假支付系统处理付款。
 
 [Preview](#app-preview)
 
-## Features
+## 特征：
 
-There are two types of users in this app: regular users and managers.
+在这个应用程序中有两种类型的用户:普通用户和管理员。
 
-### Available to the Users:
+### 可供用户使用:
 
-- **Cart**: Users can manage items in their cart.
-- **Edit Personal Information**: Users can update their personal details.
-- **Orders**: Users can view their order history.
-- **Favorites**: Users can like and save their favorite products.
-- **Reset Password**: Users can reset their password using their registered email.
+- **购物车**: 用户可以管理购物车中的物品。
+- **编辑个人信息**: 用户可以更新自己的个人信息。
+- **订单**: 用户可以查看自己的订单历史。
+- **收藏夹**: 用户可以喜欢和保存自己喜欢的产品。
+- **重置密码**: 用户可以通过注册邮箱重置密码。
 
-### Available to the Managers:
+### 可供管理员使用:
 
-Managers can access all the features available to regular users, along with additional capabilities, through the custom dashboard accessible at [http://127.0.0.1:8000/accounts/login/manager](http://127.0.0.1:8000/accounts/login/manager).
+管理员可以通过自定义仪表板访问普通用户可用的所有功能，以及其他功能：[http://127.0.0.1:8000/accounts/login/manager](http://127.0.0.1:8000/accounts/login/manager).
 
-- **Add Product**: Managers can add new products to the shop.
-- **Edit and Delete Product**: Managers can modify or remove existing products.
-- **Add New Category**: Managers have the ability to create new categories for products.
-- **Access to Orders**: Managers can view and manage all orders and order items.
+- **添加产品**: 经理可以向商店添加新产品。
+- **修改和删除产品**: 管理人员可以修改或删除现有产品。
+- **添加新分类**: 管理者有能力为产品创造新的类别。
+- **获取订单**: 管理员可以查看和管理所有订单和订单项目。
 
-## Technologies Used
+## 技术的使用
 
 - Python 3
 - Django
 - Bootstrap
 - SQLite3 database
 
-## How to Run the Application
+## 如何运行应用程序
 
-1. Clone or download the project to your local machine.
-2. Change directory to the "online-shop-django" folder.
-3. Ensure that you have Python 3, pip, and virtualenv installed on your machine.
-4. Create a virtual environment using the following command:
+1. 将项目克隆或下载到本地机器上。
+2. 将目录改为"online-shop-django"文件夹。
+3. 确保您的机器上安装了Python 3、pip和virtualenv。
+4. 使用如下命令创建虚拟环境:
    - For Mac and Linux: `python3 -m venv venv`
    - For Windows: `python -m venv venv`
-5. Activate the virtual environment:
+5. 激活虚拟环境:
    - For Mac and Linux: `source venv/bin/activate`
    - For Windows: `venv\scripts\activate`
-6. Install the application requirements by running: `pip install -r requirements.txt`
-7. Migrate the database by executing: `python manage.py migrate`
-8. Start the server: `python manage.py runserver`
-9. You should now be able to access the application by visiting: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+6. 通过运行安装应用程序需求: `pip install -r requirements.txt`
+7. 通过执行迁移数据库: `python manage.py migrate`
+8. 启动服务器: `python manage.py runserver`
+9. 您现在应该可以通过访问: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-## Manager Dashboard Access
+## 管理面板访问
 
-To access the custom dashboard for managers, please use the following credentials:
+要访问管理人员的自定义仪表板，请使用以下凭据:
 
 - Email: manager@example.com
 - Password: managerpass1234
 
-## How to Contribute
-
-I welcome contributions to enhance and customize this project. If you would like to contribute, please follow these steps:
-
-1. Fork the repository on GitHub.
-2. Create a new branch with a descriptive name for your feature or bug fix.
-3. Make the necessary changes in your branch.
-4. Test your changes thoroughly.
-5. Commit your changes and push them to your forked repository.
-6. Submit a pull request, clearly describing the changes you have made.
-
-## License
-
-released under the [MIT License](LICENSE). Feel free to use, modify, and distribute it as per the terms of the license.
-
-Feel free to explore, contribute, and customize this according to your needs!
 
 
-## App Preview
-![Peek 2022-01-09 19-15](https://user-images.githubusercontent.com/71011395/148689722-6ceacc8f-81b7-48e0-a258-9d4e543d1e7c.gif)
+## 参考
+
+原项目地址：[zareisajad/online-shop-django: Online Shop (github.com)](https://github.com/zareisajad/online-shop-django)
+
+原作者：[zareisajad (Sajad) (github.com)](https://github.com/zareisajad)
+

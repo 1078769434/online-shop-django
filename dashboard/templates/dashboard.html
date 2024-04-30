@@ -25,25 +25,28 @@
         </div>
         <!-- sidebar -->
         <div class="col-md-3 border-start">
-            <h3 class="text-muted">Menu</h3>
+            <h3 class="text-muted">菜单</h3>
             <a class="text-decoration-none" href="{% url 'dashboard:products' %}">
-                <li class="rounded list-group-item  text-primary">Products</li>
+                <li class="rounded list-group-item  text-primary">产品</li>
             </a>
             <a class="text-decoration-none" href="{% url 'dashboard:add_product' %}">
-                <li class="rounded list-group-item mt-2 text-primary">Add New Product</li>
+                <li class="rounded list-group-item mt-2 text-primary">添加新产品</li>
             </a>
             <a class="text-decoration-none" href="{% url 'dashboard:add_category' %}">
-                <li class="rounded list-group-item mt-2  text-primary">Add New Category</li>
+                <li class="rounded list-group-item mt-2  text-primary">添加新类别</li>
             </a>
             <a class="text-decoration-none" href="{% url 'dashboard:orders' %}">
-                <li class="rounded list-group-item mt-2  text-primary">Orders</li>
+                <li class="rounded list-group-item mt-2  text-primary">订单</li>
+            </a>
+            <a class="text-decoration-none" href="{% url 'dashboard:users' %}">
+                <li class="rounded list-group-item mt-2  text-primary">用户管理</li>
             </a>
             <hr>
             <a class="text-decoration-none" href="{% url 'shop:home_page' %}">
-                <li class="rounded list-group-item bg-primary mt-2  text-white">Back To shop</li>
+                <li class="rounded list-group-item bg-primary mt-2  text-white">返回商店</li>
             </a>
             <a class="text-decoration-none" href="{% url 'accounts:user_logout' %}">
-                <li class="rounded list-group-item bg-danger mt-2  text-white">Logout</li>
+                <li class="rounded list-group-item bg-danger mt-2  text-white">注销</li>
             </a>
             <div class="text-muted mt-2">You logged in as: {{ request.user.email }}</div>
         </div>
