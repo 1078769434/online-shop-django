@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "online-shop-django"
+version = "0.1.0"
+description = ""
+authors = ["limao <1078769434@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+asgiref = "3.4.1"
+backports-zoneinfo = "0.2.1"
+django = "4.0"
+django-crispy-forms = "1.13.0"
+pillow = "9.0.0"
+sqlparse = "0.4.2"
+tzdata = "2024.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
