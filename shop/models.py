@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-
+from uuslug import uuslug
 
 class Category(models.Model):
     """
@@ -57,8 +57,10 @@ class Category(models.Model):
         返回值:
         - 调用父类save方法的返回值。
         """
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+        # self.slug = slugify(self.title)
+        # return super().save(*args, **kwargs)
+        self.slug = uuslug(self.title, instance=self, max_length=255)
+        return super(Category, self).save(*args, **kwargs)
 
 
 class Product(models.Model):
@@ -121,5 +123,7 @@ class Product(models.Model):
         返回值:
         - 调用父类save方法的返回值。
         """
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+        # self.slug = slugify(self.title)
+        # return super().save(*args, **kwargs)
+        self.slug = uuslug(self.title, instance=self, max_length=50)
+        return super(Product, self).save(*args, **kwargs)
