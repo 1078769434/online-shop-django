@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 
+from accounts.forms import ShippingAddressForm
+from accounts.models import ShippingAddress
 from .models import Order, OrderItem
 from cart.utils.cart import Cart
 
@@ -44,7 +46,7 @@ def checkout(request, order_id):
     - HttpResponse对象，渲染的结账页面。
     """
     order = get_object_or_404(Order, id=order_id)  # 根据订单ID获取订单对象
-    context = {'title':'Checkout' ,'order':order}  # 准备上下文数据
+    context = {'title': 'Checkout', 'order': order}  # 准备上下文数据
     return render(request, 'checkout.html', context)  # 渲染结账页面
 
 
@@ -81,6 +83,10 @@ def user_orders(request):
     返回值:
     - HttpResponse对象，渲染的用户订单列表页面。
     """
+    # 列出用户所有收货地址
+    addresses = ShippingAddress.objects.filter(user=request.user, default=True)
+    form = ShippingAddressForm()
+
     orders = request.user.orders.all()  # 获取当前用户的所有订单
-    context = {'title':'Orders', 'orders': orders}  # 准备上下文数据
+    context = {'title': 'Orders', 'orders': orders, 'addresses': addresses}  # 准备上下文数据
     return render(request, 'user_orders.html', context)  # 渲染用户订单列表页面
