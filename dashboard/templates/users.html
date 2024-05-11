@@ -1,0 +1,43 @@
+{% extends "dashboard.html" %}
+{% block content %}
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <a href="{% url 'dashboard:add_user' %}" class="btn btn-primary mr-2">添加用户</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">姓名</th>
+            <th scope="col">邮箱</th>
+            <th scope="col">是否活跃</th>
+            <th scope="col">是否管理员</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        {% for user in users %}
+            <tbody>
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.email }}</td>
+                {% if user.is_active %}
+                    <td class="text-success">Yes</td>
+                {% else %}
+                    <td class="text-danger">No</td>
+                {% endif %}
+                {% if user.is_manager %}
+                    <td class="text-success">Yes</td>
+                {% else %}
+                    <td class="text-danger">No</td>
+                {% endif %}
+                <td>
+                    <!-- 将修改用户链接移动到循环内部，并使用 user.id 作为参数 -->
+                    <a href="{% url 'dashboard:edit_user' user_id=user.id %}" class="btn btn-secondary">修改用户信息</a>
+                </td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

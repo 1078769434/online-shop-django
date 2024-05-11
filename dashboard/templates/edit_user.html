@@ -1,0 +1,12 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<h1>修改用户信息(Edit User)</h1>
+<form method="post">
+  {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button class="btn btn-primary mt-3 w-100" type="submit">保存修改</button>
+    </div>
+
+</form>
+{% endblock %}
