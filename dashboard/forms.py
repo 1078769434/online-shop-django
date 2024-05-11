@@ -40,7 +40,7 @@ class AddCategoryForm(ModelForm):
     """
     class Meta:
         model = Category
-        fields = ['title', 'sub_category', 'is_sub']
+        fields = ['title', 'sub_category','is_sub']
 
     def __init__(self, *args, **kwargs):
         """
@@ -55,6 +55,7 @@ class AddCategoryForm(ModelForm):
         self.fields['is_sub'].widget.attrs['class'] = 'form-check-input'
         self.fields['sub_category'].widget.attrs['class'] = 'form-control'
         self.fields['title'].widget.attrs['class'] = 'form-control'
+        # self.fields['slug'].widget.attrs['class'] = 'form-control'
 
 
 class EditProductForm(ModelForm):
