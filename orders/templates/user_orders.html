@@ -17,11 +17,16 @@
 {% for item in order.items.all  %}
     <div class="border-bottom p-2">
         <p>商品(product): <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">{{item.product.title}}</a></p>
-        <p>价格(Price): ${{item.price}}</p>
+        <p>价格(Price): ¥{{item.price}}</p>
         <p>数量(quantity): {{item.quantity}}</p>
+        {% for address in addresses %}
+            <p>收货地址(address): {{ address.name }} - {{ address.phone_number }} - {{ address.state_province }} - {{ address.city }} - {{ address.address_line1 }} - {{ address.address_line2 }}</p>
+        {% empty %}
+    <!-- 当my_list为空时显示的内容 -->
+        {% endfor %}
     </div>
 {% endfor %}
-<b>总价(Total price): ${{ order.get_total_price }}</b>
+<b>总价(Total price): ¥{{ order.get_total_price }}</b>
 </div>
 {% endfor %}
 {% else %}
