@@ -3,7 +3,7 @@ from django.forms import ModelForm
 
 from shop.models import Product, Category
 
-
+from django.utils.translation import gettext as _
 class AddProductForm(ModelForm):
     """
     用于添加产品的表单类，继承自ModelForm。
@@ -25,6 +25,13 @@ class AddProductForm(ModelForm):
             **kwargs: 关键字参数。
         """
         super(AddProductForm, self).__init__(*args, **kwargs)
+        # 设置字段的中文标签
+        self.fields['category'].label = _("类别")
+        self.fields['image'].label = _("图片")
+        self.fields['title'].label = _("标题")
+        self.fields['description'].label = _("描述")
+        self.fields['price'].label = _("价格")
+
         # 为所有可见字段的控件添加 'form-control' 类
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
@@ -51,6 +58,12 @@ class AddCategoryForm(ModelForm):
             **kwargs: 关键字参数。
         """
         super(AddCategoryForm, self).__init__(*args, **kwargs)
+
+        # 设置字段的中文标签
+        self.fields['title'].label = _("类别名称")
+        self.fields['sub_category'].label = _("子类别")
+        self.fields['is_sub'].label = _("是否为子类别")
+
         # 为特定字段的控件添加自定义类
         self.fields['is_sub'].widget.attrs['class'] = 'form-check-input'
         self.fields['sub_category'].widget.attrs['class'] = 'form-control'
@@ -79,6 +92,14 @@ class EditProductForm(ModelForm):
             **kwargs: 关键字参数。
         """
         super(EditProductForm, self).__init__(*args, **kwargs)
+
+        # 设置字段的中文标签
+        self.fields['category'].label = _("类别")
+        self.fields['image'].label = _("图片")
+        self.fields['title'].label = _("标题")
+        self.fields['description'].label = _("描述")
+        self.fields['price'].label = _("价格")
+
         # 为所有可见字段的控件添加 'form-control' 类
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
