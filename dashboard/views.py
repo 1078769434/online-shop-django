@@ -40,7 +40,7 @@ def products(request):
     - HttpResponse 对象，渲染的产品页面。
     """
     products = Product.objects.all()  # 获取所有产品
-    context = {'title':'Products' ,'products':products}  # 页面上下文
+    context = {'title':'产品' ,'products':products}  # 页面上下文
     return render(request, 'products.html', context)  # 渲染页面
 
 @user_passes_test(is_manager)
@@ -63,7 +63,7 @@ def add_product(request):
             return redirect('dashboard:add_product')  # 重定向回添加产品页面
     else:  # 首次访问页面时
         form = AddProductForm()  # 创建空的表单实例
-    context = {'title':'Add Product', 'form':form}  # 页面上下文
+    context = {'title':'添加产品', 'form':form}  # 页面上下文
     return render(request, 'add_product.html', context)  # 渲染页面
 
 @user_passes_test(is_manager)
@@ -105,7 +105,7 @@ def edit_product(request, id):
             return redirect('dashboard:products')  # 重定向到产品列表
     else:  # 首次访问页面时
         form = EditProductForm(instance=product)  # 创建表单实例
-    context = {'title': 'Edit Product', 'form':form}  # 页面上下文
+    context = {'title': '修改产品', 'form':form}  # 页面上下文
     return render(request, 'edit_product.html', context)  # 渲染页面
 
 @user_passes_test(is_manager)
@@ -128,7 +128,7 @@ def add_category(request):
             return redirect('dashboard:add_category')  # 重定向回添加类别页面
     else:  # 首次访问页面时
         form = AddCategoryForm()  # 创建空的表单实例
-    context = {'title':'Add Category', 'form':form}  # 页面上下文
+    context = {'title':'添加分类', 'form':form}  # 页面上下文
     return render(request, 'add_category.html', context)  # 渲染页面
 
 
@@ -146,7 +146,7 @@ def orders(request):
     - HttpResponse对象，渲染的订单页面。
     """
     orders = Order.objects.all()  # 获取所有订单
-    context = {'title':'Orders', 'orders':orders}  # 准备上下文数据
+    context = {'title':'订单', 'orders':orders}  # 准备上下文数据
     return render(request, 'orders.html', context)  # 渲染订单列表页面
 
 # 确保只有经理能访问订单详情页面
@@ -171,7 +171,7 @@ def order_detail(request, id):
 
     # 准备上下文数据，新增addresses
     context = {
-        'title': 'Order Detail',
+        'title': '订单详情',
         'items': items,
         'order': order,
         'addresses': addresses,  # 更新此行，传入与订单用户关联的地址
@@ -193,7 +193,7 @@ def users(request):
     - HttpResponse对象，渲染的用户管理页面。
     """
     users = User.objects.all()  # 获取所有用户
-    context = {'title': 'Users', 'users': users}  # 准备上下文数据
+    context = {'title': '用户', 'users': users}  # 准备上下文数据
     return render(request, 'users.html', context)  # 渲染用户列表页面
 
 
@@ -217,7 +217,7 @@ def add_user(request):
             return redirect('dashboard:users')  # 重定向到用户列表
     else:  # 首次访问页面时
         form = CustomUserCreationForm()  # 创建空的表单实例
-    context = {'title': 'Add User', 'form': form}  # 页面上下文
+    context = {'title': '添加用户', 'form': form}  # 页面上下文
     return render(request, 'add_user.html', context)  # 渲染添加用户页面
 
 
@@ -243,7 +243,7 @@ def edit_user(request, user_id):
             return redirect('dashboard:users')  # 重定向到用户列表
     else:  # 首次访问页面时
         form = CustomUserChangeForm(instance=user)  # 创建表单实例
-    context = {'title': 'Edit User', 'form': form}  # 页面上下文
+    context = {'title': '修改用户', 'form': form}  # 页面上下文
     return render(request, 'edit_user.html', context)  # 渲染编辑用户页面
 
 
