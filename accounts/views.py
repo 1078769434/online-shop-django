@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, ShippingAddressForm
+from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, ShippingAddressForm, \
+    CustomUserChangeForm
 from accounts.models import User, ShippingAddress
 
 
@@ -152,7 +153,9 @@ def manage_shipping_address(request):
     返回值:
     - 渲染收货地址管理页面或执行添加、编辑、删除等操作后重定向至收货地址管理页面。
     """
-
+    # 列出用户所有收货地址
+    addresses = ShippingAddress.objects.filter(user=request.user)
+    form = ShippingAddressForm()
 
     # 添加地址操作
     if request.method == 'POST' and 'add_address' in request.POST:
@@ -168,7 +171,7 @@ def manage_shipping_address(request):
     elif request.method == 'POST' and 'edit_address' in request.POST:
         # form = ShippingAddressForm(request.POST, instance=request.POST.get('address_id'))
         address_id = request.POST.get('address_id')
-        address_instance = ShippingAddress.objects.get(id=address_id)  # 假设ShippingAddress是你的模型类
+        address_instance = ShippingAddress.objects.get(id=address_id, user=request.user)  # 假设ShippingAddress是你的模型类
         form = ShippingAddressForm(request.POST, instance=address_instance)
         if form.is_valid():
             form.save()
@@ -185,9 +188,7 @@ def manage_shipping_address(request):
         messages.success(request, '收货地址已删除.', 'success')
         return redirect('accounts:manage_shipping_address')
 
-    # 列出用户所有收货地址
-    addresses = ShippingAddress.objects.filter(user=request.user)
-    form = ShippingAddressForm()
+
     # 渲染管理页面
     context = {'addresses': addresses, 'title': '收货地址', 'form': form}
     return render(request, 'manage_shipping_address.html', context)
@@ -255,3 +256,31 @@ def manage_shipping_address(request):
 #     address.delete()
 #     messages.success(request, '收货地址已删除.', 'success')
 #     return redirect('accounts:manage_shipping_address')
+
+# def password_reset(request, email):
+#     """
+#     编辑用户信息的页面。
+#
+#     参数:
+#     - request: HttpRequest对象，表示客户端请求的数据和相关信息。
+#     - user_id: 要编辑的用户的ID。
+#
+#     返回值:
+#     - HttpResponse对象，渲染的编辑用户页面或重定向到用户列表。
+#     """
+#
+#     user = User.objects.get(email=email)
+#     if user:
+#         if request.method == 'POST':  # 提交表单时
+#             form = CustomUserChangeForm(request.POST, instance=user)  # 使用Django内置的UserChangeForm或其他自定义的用户编辑表单
+#             if form.is_valid():  # 表单验证通过
+#                 form.save()  # 保存修改后的用户信息
+#                 messages.success(request, 'User information updated successfully!')  # 更新成功消息
+#                 return redirect('dashboard:users')  # 重定向到用户列表
+#         else:  # 首次访问页面时
+#             form = CustomUserChangeForm(instance=user)  # 创建表单实例
+#         context = {'title': 'Edit User', 'form': form}  # 页面上下文
+#         return render(request, 'password_reset_complete.html', context)  # 渲染编辑用户页面
+#     else:
+#         messages.error(request, 'User not found!')  # 用户不存在消息
+#         return redirect('dashboard:password_reset')
