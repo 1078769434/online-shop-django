@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import Http404
 
 from shop.models import Product
-from accounts.models import User
+from accounts.models import User, ShippingAddress
 from orders.models import Order, OrderItem
 from .forms import AddProductForm, AddCategoryForm, EditProductForm
 
@@ -165,8 +165,20 @@ def order_detail(request, id):
     """
     order = Order.objects.filter(id=id).first()  # 根据ID获取订单
     items = OrderItem.objects.filter(order=order).all()  # 获取该订单的所有商品
-    context = {'title':'order detail', 'items':items, 'order':order}  # 准备上下文数据
-    return render(request, 'order_detail.html', context)  # 渲染订单详情页面
+    # 获取订单所属用户的默认收货地址
+    user = order.user
+    addresses = ShippingAddress.objects.filter(user=user, default=True)
+
+    # 准备上下文数据，新增addresses
+    context = {
+        'title': 'Order Detail',
+        'items': items,
+        'order': order,
+        'addresses': addresses,  # 更新此行，传入与订单用户关联的地址
+    }
+
+    # 渲染并返回订单详情页面
+    return render(request, 'order_detail.html', context)
 
 @user_passes_test(is_manager)
 @login_required
