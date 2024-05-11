@@ -4,6 +4,7 @@ from .models import User, ShippingAddress
 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
+from django.utils.translation import gettext as _
 
 #
 # 用户登录表单
@@ -143,11 +144,16 @@ class CustomUserCreationForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         # 为指定字段更新HTML属性，例如添加class和placeholder。
-        self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Full_name'})
-        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email'})
-        self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
+        self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'placeholder': _('请输入昵称')})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': _('请输入电子邮件')})
+        self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': _('请输入密码')})
         # 此处注释的代码块用于更新is_active和is_manager字段的HTML属性。
-
+        # 更改特定字段的标签
+        self.fields['full_name'].label = _('昵称')
+        self.fields['email'].label = _('电子邮件')
+        self.fields['password'].label = _('密码')
+        self.fields['is_active'].label = _('是否活跃')
+        self.fields['is_manager'].label = _('是否为管理员')
     def save(self, commit=True):
         """
         保存表单数据至模型实例。
@@ -197,12 +203,15 @@ class CustomUserChangeForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         # 为每个字段的输入小部件添加HTML属性，如class和placeholder
-        self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Full Name'})
-        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email'})
-        self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
+        self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'placeholder': _('请输入昵称')})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': _('请输入电子邮件')})
+        self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': _('请输入密码')})
         # 更改特定字段的标签
-        self.fields['is_active'].label = 'Active'
-        self.fields['is_manager'].label = 'Manager'
+        self.fields['full_name'].label = _('昵称')
+        self.fields['email'].label = _('电子邮件')
+        self.fields['password'].label = _('密码')
+        self.fields['is_active'].label = _('是否活跃')
+        self.fields['is_manager'].label = _('是否为管理员')
 
     def save(self, commit=True):
         """

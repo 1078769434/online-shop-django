@@ -193,7 +193,7 @@ def users(request):
     - HttpResponse对象，渲染的用户管理页面。
     """
     users = User.objects.all()  # 获取所有用户
-    context = {'title': '用户', 'users': users}  # 准备上下文数据
+    context = {'title': '用户管理', 'users': users}  # 准备上下文数据
     return render(request, 'users.html', context)  # 渲染用户列表页面
 
 
@@ -243,7 +243,7 @@ def edit_user(request, user_id):
             return redirect('dashboard:users')  # 重定向到用户列表
     else:  # 首次访问页面时
         form = CustomUserChangeForm(instance=user)  # 创建表单实例
-    context = {'title': '修改用户', 'form': form}  # 页面上下文
+    context = {'title': '修改用户信息', 'form': form}  # 页面上下文
     return render(request, 'edit_user.html', context)  # 渲染编辑用户页面
 
 
