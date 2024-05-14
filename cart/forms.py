@@ -12,6 +12,6 @@ class QuantityForm(forms.Form):
     # 使用一个自定义的HTML小部件来渲染这个字段，增加类名和占位符，以提高表单的可填写性。
     quantity = forms.IntegerField(label='',
         min_value=1, max_value=9, widget=forms.NumberInput(
-            attrs={'class': 'form-control mt-1','placeholder': 'quantity'}
+            attrs={'class': 'form-control mt-1','placeholder': '数量'}
         )
     )
