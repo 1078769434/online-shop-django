@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if products %}
-<h2>你的收藏夹(Your Favorites)</h2>
+<h2>你的收藏夹</h2>
 <hr>
 {% for product in products %}
 <div class="card me-2 mb-2" style="width: 16rem;">
@@ -9,9 +9,9 @@
   <div class="mt-3 text-center">
     <h5 class="card-title">{{ product.title }}</h5>
     <p class="text-muted">¥{{ product.price }}</p>
-    <a href="{{ product.get_absolute_url }}" class="mb-3 btn btn-primary w-100">现在购买(Buy Now)</a>
+    <a href="{{ product.get_absolute_url }}" class="mb-3 btn btn-primary w-100">现在购买</a>
   </div>
-  <a href="{% url 'shop:remove_from_favorites' product.id %}" class="mb-3 btn btn-outline-danger">移除(Remove)</a>
+  <a href="{% url 'shop:remove_from_favorites' product.id %}" class="mb-3 btn btn-outline-danger">移除</a>
 </div>
 {% endfor %}
 {% else %}
@@ -20,7 +20,7 @@
   <div class="col-md-8 mt-5 pt-5 text-center">
     <br>
     <h3 class="text-muted text-capitalize">收藏夹列表为空..!</h3>
-    <a href="/" class="text-primary text-decoration-none">Back</a>
+    <a href="/" class="text-primary text-decoration-none">返回</a>
   </div>
   <div class="col-md-2"></div>
 </div>

@@ -30,7 +30,7 @@
 </table>
 <hr>
 <a href="{% url 'orders:create_order' %}" style="float: right;" class="btn btn-success mt-1">购买</a>
-<h4 class="mt-4"><span class="text-muted">总价(Total):</span> ¥{{ cart.get_total_price }}</h4>
+<h4 class="mt-4"><span class="text-muted">总价:</span> ¥{{ cart.get_total_price }}</h4>
 </div>
 {% else %}
 <div class="col-md-8 mt-5 pt-5 text-center">
