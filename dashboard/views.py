@@ -1,8 +1,10 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
+from django.urls import reverse
 
 from shop.models import Product
 from accounts.models import User, ShippingAddress
@@ -150,8 +152,10 @@ def orders(request):
     return render(request, 'orders.html', context)  # 渲染订单列表页面
 
 # 确保只有经理能访问订单详情页面
-@user_passes_test(is_manager)
-@login_required
+# 此处需要导入相关模块，例如HttpRequest, HttpResponse等，但由于代码片段中未提供，故省略
+
+@user_passes_test(is_manager)  # 确保只有经理可以访问
+@login_required  # 确保用户已登录
 def order_detail(request, id):
     """
     显示特定订单的详细信息页面。
@@ -163,22 +167,42 @@ def order_detail(request, id):
     返回值:
     - HttpResponse对象，渲染的订单详情页面。
     """
-    order = Order.objects.filter(id=id).first()  # 根据ID获取订单
-    items = OrderItem.objects.filter(order=order).all()  # 获取该订单的所有商品
+    # 根据ID获取订单
+    order = Order.objects.filter(id=id).first()
+    # 获取该订单的所有商品
+    items = OrderItem.objects.filter(order=order).all()
     # 获取订单所属用户的默认收货地址
     user = order.user
     addresses = ShippingAddress.objects.filter(user=user, default=True)
 
-    # 准备上下文数据，新增addresses
+    # 处理POST请求，更新订单发货状态
+    if request.method == 'POST':
+        # 确保有CSRF token
+        if request.POST.get('csrfmiddlewaretoken'):
+            status_str = request.POST.get('shipped')
+            try:
+                order.shipped = status_str  # 更新订单发货状态
+                order.save()  # 保存更改
+                # # 向用户发送状态更新成功的消息
+                # if status_str==True:
+                #     messages.success(request, f"订单已发货{status_str}")
+                # elif status_str == False:
+                #     messages.success(request, "订单未发货")
+                # messages.success(request, "发货状态更新为：{}".format('已发货' if status_str else '未发货'))
+            except ValidationError as e:  # 处理验证错误
+                messages.error(request, str(e))
+            return redirect('dashboard:orders')  # 重定向到订单列表页面
+
+    # 构建上下文字典，传递给模板
     context = {
         'title': '订单详情',
         'items': items,
         'order': order,
-        'addresses': addresses,  # 更新此行，传入与订单用户关联的地址
+        'addresses': addresses,
     }
-
-    # 渲染并返回订单详情页面
+    # 渲染订单详情页面
     return render(request, 'order_detail.html', context)
+
 
 @user_passes_test(is_manager)
 @login_required

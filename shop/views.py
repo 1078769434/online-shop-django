@@ -64,7 +64,7 @@ def product_detail(request, slug):
         'title': product.title,  # 产品标题
         'product': product,  # 产品对象
         'form': form,  # 数量表单
-        'favorites': 'favorites',  # 用于标识收藏状态的初始值
+        'favorites': '收藏夹',  # 用于标识收藏状态的初始值
         'related_products': related_products  # 相关产品列表
     }
     # 检查当前用户是否已将该产品添加为收藏
@@ -107,7 +107,7 @@ def favorites(request):
     # 获取当前用户喜欢的所有商品
     products = request.user.likes.all()
     # 渲染收藏页面，传递标题和商品列表
-    context = {'title':'Favorites', 'products':products}
+    context = {'title':'收藏夹', 'products':products}
     return render(request, 'favorites.html', context)
 
 # 实现商品搜索功能

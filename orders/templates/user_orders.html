@@ -2,43 +2,50 @@
 
 {% block content %}
 
-{% if orders %}
-{% for order in orders %}
-<div class="col-md-7 mb-4 border rounded p-3">
-<!-- order id on right -->
-<b style="float: right;">订货号(Order Id): {{ order.id }}</b>
-<!-- order payment status -->
-{% if order.status %}
-    <h4><b class="text-success">成功购买!(Successful)</b></h4>
-{% else %}
-    <h3><b class="text-danger">取消(Cancelled)</b></h3>
-{% endif %}
-<div class="text-muted border-top pt-2"></div>
-{% for item in order.items.all  %}
-    <div class="border-bottom p-2">
-        <p>商品(product): <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">{{item.product.title}}</a></p>
-        <p>价格(Price): ¥{{item.price}}</p>
-        <p>数量(quantity): {{item.quantity}}</p>
-        {% for address in addresses %}
-            <p>收货地址(address): {{ address.name }} - {{ address.phone_number }} - {{ address.state_province }} - {{ address.city }} - {{ address.address_line1 }} - {{ address.address_line2 }}</p>
-        {% empty %}
-    <!-- 当my_list为空时显示的内容 -->
+    {% if orders %}
+        {% for order in orders %}
+            <div class="col-md-7 mb-4 border rounded p-3">
+                <!-- order id on right -->
+                <b style="float: right;">订货号: {{ order.id }}</b>
+                <!-- order payment status -->
+                {% if order.status %}
+                    <h4><b class="text-success">成功购买!</b></h4>
+                {% else %}
+                    <h3><b class="text-danger">取消</b></h3>
+                {% endif %}
+                <div class="text-muted border-top pt-2"></div>
+                {% for item in order.items.all %}
+                    <div class="border-bottom p-2">
+                        <p>商品: <a class="text-decoration-none"
+                                    href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a></p>
+                        <p>价格: ¥{{ item.price }}</p>
+                        <p>数量: {{ item.quantity }}</p>
+                        {% if item.order.shipped %}
+                            <p>发货状态: <span class="text-success">已发货</span></p>
+                        {% else %}
+                            <p>发货状态: <span class="text-danger">未发货</span></p>
+                        {% endif %}
+                        {% for address in addresses %}
+                            <p>收货地址: {{ address.name }} - {{ address.phone_number }} - {{ address.state_province }}
+                                - {{ address.city }} - {{ address.address_line1 }} - {{ address.address_line2 }}</p>
+                        {% empty %}
+                            <!-- 当my_list为空时显示的内容 -->
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <b>总价: ¥{{ order.get_total_price }}</b>
+            </div>
         {% endfor %}
-    </div>
-{% endfor %}
-<b>总价(Total price): ¥{{ order.get_total_price }}</b>
-</div>
-{% endfor %}
-{% else %}
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8 mt-5 pt-5 text-center">
-      <br>
-      <h3 class="text-muted text-capitalize">订单列表是空的…!(Orders list is empty..!)</h3>
-      <a href="/" class="text-primary text-decoration-none">返回(Back)</a>
-    </div>
-    <div class="col-md-2"></div>
-</div>
-{% endif %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 mt-5 pt-5 text-center">
+                <br>
+                <h3 class="text-muted text-capitalize">订单列表是空的…!</h3>
+                <a href="/" class="text-primary text-decoration-none">返回</a>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    {% endif %}
 
 {% endblock %}

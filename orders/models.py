@@ -19,6 +19,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)  # 创建时间
     updated = models.DateTimeField(auto_now=True)  # 更新时间
     status = models.BooleanField(default=False)  # 订单状态
+    shipped = models.BooleanField(default=False)  # 发货状态
 
     class Meta:
         ordering = ('-created',)  # 默认按照创建时间降序排序
