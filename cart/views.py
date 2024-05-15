@@ -35,7 +35,7 @@ def add_to_cart(request, product_id):
     if form.is_valid():  # 检查表单数据是否有效
         data = form.cleaned_data  # 获取清理后的表单数据
         cart.add(product=product, quantity=data['quantity'])  # 将产品添加到购物车中，指定数量
-        messages.success(request, 'Added to your cart!', 'info')  # 向用户显示成功消息
+        messages.success(request, '已添加到购物车!', 'info')  # 向用户显示成功消息
     return redirect('shop:product_detail', slug=product.slug)  # 重定向回产品详情页面
 
 
