@@ -19,12 +19,12 @@ class UserLoginForm(forms.Form):
     """
     email = forms.EmailField(
         widget=forms.EmailInput(
-            attrs={'class': 'form-control', 'placeholder': 'email'}
+            attrs={'class': 'form-control', 'placeholder': '邮箱'}
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': 'password'}
+            attrs={'class': 'form-control', 'placeholder': '密码'}
         )
     )
 
@@ -84,6 +84,19 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['full_name', 'email']
+    def __init__(self, *args, **kwargs):
+        """
+        构造函数，初始化表单实例。
+
+        参数:
+            *args: 位置参数。
+            **kwargs: 关键字参数。
+        """
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+
+        # 设置字段的中文标签
+        self.fields['full_name'].label = _("昵称")
+        self.fields['email'].label = _("邮箱")
 
 
 

@@ -6,11 +6,11 @@
     <div class="col-md-6">
         <form method="POST">
             {% csrf_token %}
-            <h3>修改资料(Edit Profile)</h3>
+            <h3>修改资料</h3>
             <hr>
             {{ form|crispy  }}
             <div class="form-group">
-                <button class="btn btn-primary mt-3 w-100" type="submit">更新(Update)</button>
+                <button class="btn btn-primary mt-3 w-100" type="submit">更新</button>
             </div>
         </form>
     </div>

@@ -4,11 +4,11 @@
     <div class="col-md-6">
         <form method="POST">
             {% csrf_token %}
-            <h3>登录(Login)</h3>
+            <h3>登录</h3>
             <hr>
             {{ form|crispy }}
             <div class="form-group">
-                <button class="btn btn-primary mt-3 w-100" type="submit">登录(Submit)</button>
+                <button class="btn btn-primary mt-3 w-100" type="submit">登录</button>
             </div>
 {#            <div class="mt-2 mb-2">#}
 {#                <small class="">#}
@@ -18,7 +18,7 @@
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                新来用户？(New Here?) <a class="text-decoration-none" href="{% url 'accounts:user_register' %}">创建账号(Create account)</a>
+                新来用户？<a class="text-decoration-none" href="{% url 'accounts:user_register' %}">创建账号</a>
             </small>
         </div>
     </div>
