@@ -59,9 +59,7 @@
 
 
 
-## 参考
 
-原项目地址：[zareisajad/online-shop-django: Online Shop (github.com)](https://github.com/zareisajad/online-shop-django)
 
-原作者：[zareisajad (Sajad) (github.com)](https://github.com/zareisajad)
+
 
